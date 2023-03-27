@@ -29,11 +29,7 @@ jobs:
 
     - name: Compile serial/parallel executable
       run: |
-        if [ "${{ matrix.compiler }}" = "serial" ]; then
           g++ -o program-serial ParallelFor.cpp
-        else
-          g++-9 -o program-parallel EllipticMeshGenerator.cpp -fopenmp
-        fi
 
     - name: Run C++ program with serial/parallel executable
       run: |
