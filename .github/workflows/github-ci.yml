@@ -1,0 +1,44 @@
+name: C++ build and test
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        compiler: [serial]
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up C++ build environment
+      uses: actions/setup-node@v2
+      with:
+        node-version: '16.x'
+
+    - name: Install serial/parallel compiler
+      run: |
+        if [ "${{ matrix.compiler }}" = "serial" ]; then
+          sudo apt-get install g++
+        else
+          sudo apt-get install g++-9
+        fi
+
+    - name: Compile serial/parallel executable
+      run: |
+        if [ "${{ matrix.compiler }}" = "serial" ]; then
+          g++ -o program-serial ParallelFor.cpp
+        else
+          g++-9 -o program-parallel EllipticMeshGenerator.cpp -fopenmp
+        fi
+
+    - name: Run C++ program with serial/parallel executable
+      run: |
+        if [ "${{ matrix.compiler }}" = "serial" ]; then
+          ./program-serial
+        else
+          ./program-parallel
+        fi
