@@ -27,9 +27,21 @@ jobs:
           sudo apt-get install g++-9
         fi
 
-    - name: Compile serial/parallel executable
+    - name: Compile 1D
       run: |
           g++ -o program-serial ParallelFor.cpp
+
+    - name: Run C++ program with serial/parallel executable
+      run: |
+        if [ "${{ matrix.compiler }}" = "serial" ]; then
+          ./program-serial
+        else
+          ./program-parallel
+        fi
+
+    - name: Compile 3D
+      run: |
+          g++ -o program-serial ParallelFor_3D.cpp
 
     - name: Run C++ program with serial/parallel executable
       run: |
