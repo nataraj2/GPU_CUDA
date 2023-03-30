@@ -1,38 +1,24 @@
-name: Build and Run on GPU
+name: Build and Run Test
 
 on:
   push:
-    branches: [ main ]
-
-env:
-  CUDA_VERSION: 11.4.0
-  CUDNN_VERSION: 8.2.2.26
-  LD_LIBRARY_PATH: /usr/local/cuda/lib64:/usr/local/cudnn/lib64:$LD_LIBRARY_PATH
+    branches: [main]
+  pull_request:
+    branches: [main]
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        os: [ubuntu-latest]
-        cuda: [${{ env.CUDA_VERSION }}]
-
     steps:
-    - name: Checkout
-      uses: actions/checkout@v2
-
-    - name: Set up CUDA
-      uses: nvidia/setup-cuda@v1.2.0
-      with:
-        cuda-version: ${{ matrix.cuda }}
-        cudnn-version: ${{ env.CUDNN_VERSION }}
-        install-dir: /usr/local/cuda
-
-    - name: Build
-      run: |
-        nvcc --extended-lambda kernel_test.cpp -o my_app 
-
-    - name: Run
-      run: |
-        ./my_app
-
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      - name: Install CUDA toolkit
+        uses: nvidia/cuda-toolkit-install@v1
+        with:
+          cuda-version: '11.2'
+          username: ${{ secrets.NVIDIA_USERNAME }}
+          password: ${{ secrets.NVIDIA_PASSWORD }}
+      - name: Compile and run test.cpp
+        run: |
+          nvcc --extended-lambda test.cpp -o test
+          ./test
