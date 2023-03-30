@@ -1,52 +1,38 @@
-name: C++ build and test
+name: Build and Run on GPU
 
-on: [push, pull_request]
+on:
+  push:
+    branches: [ main ]
+
+env:
+  CUDA_VERSION: 11.4.0
+  CUDNN_VERSION: 8.2.2.26
+  LD_LIBRARY_PATH: /usr/local/cuda/lib64:/usr/local/cudnn/lib64:$LD_LIBRARY_PATH
 
 jobs:
   build:
     runs-on: ubuntu-latest
-
     strategy:
       matrix:
-        compiler: [serial]
+        os: [ubuntu-latest]
+        cuda: [${{ env.CUDA_VERSION }}]
 
     steps:
-    - name: Checkout code
+    - name: Checkout
       uses: actions/checkout@v2
 
-    - name: Set up C++ build environment
-      uses: actions/setup-node@v2
+    - name: Set up CUDA
+      uses: nvidia/setup-cuda@v1.2.0
       with:
-        node-version: '16.x'
+        cuda-version: ${{ matrix.cuda }}
+        cudnn-version: ${{ env.CUDNN_VERSION }}
+        install-dir: /usr/local/cuda
 
-    - name: Install serial/parallel compiler
+    - name: Build
       run: |
-        if [ "${{ matrix.compiler }}" = "serial" ]; then
-          sudo apt-get install g++
-        else
-          sudo apt-get install g++-9
-        fi
+        nvcc --extended-lambda kernel_test.cpp -o my_app 
 
-    - name: Compile 1D
+    - name: Run
       run: |
-          g++ -o program-serial ParallelFor.cpp
+        ./my_app
 
-    - name: Run C++ program with serial/parallel executable
-      run: |
-        if [ "${{ matrix.compiler }}" = "serial" ]; then
-          ./program-serial
-        else
-          ./program-parallel
-        fi
-
-    - name: Compile 3D
-      run: |
-          g++ -o program-serial ParallelFor_3D.cpp
-
-    - name: Run C++ program with serial/parallel executable
-      run: |
-        if [ "${{ matrix.compiler }}" = "serial" ]; then
-          ./program-serial
-        else
-          ./program-parallel
-        fi

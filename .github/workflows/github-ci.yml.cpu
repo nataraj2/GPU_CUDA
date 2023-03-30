@@ -1,0 +1,52 @@
+name: C++ build and test
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        compiler: [serial]
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up C++ build environment
+      uses: actions/setup-node@v2
+      with:
+        node-version: '16.x'
+
+    - name: Install serial/parallel compiler
+      run: |
+        if [ "${{ matrix.compiler }}" = "serial" ]; then
+          sudo apt-get install g++
+        else
+          sudo apt-get install g++-9
+        fi
+
+    - name: Compile 1D
+      run: |
+          g++ -o program-serial ParallelFor.cpp
+
+    - name: Run C++ program with serial/parallel executable
+      run: |
+        if [ "${{ matrix.compiler }}" = "serial" ]; then
+          ./program-serial
+        else
+          ./program-parallel
+        fi
+
+    - name: Compile 3D
+      run: |
+          g++ -o program-serial ParallelFor_3D.cpp
+
+    - name: Run C++ program with serial/parallel executable
+      run: |
+        if [ "${{ matrix.compiler }}" = "serial" ]; then
+          ./program-serial
+        else
+          ./program-parallel
+        fi
