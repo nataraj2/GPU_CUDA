@@ -21,10 +21,10 @@ struct Array4{
 	int jstride;
 	int kstride;
 	public:
-        __host__ __device__
-	T& operator()(int i, int j, int k)const noexcept{
-		return data[i + j*jstride + k*kstride];
-	}
+    	__host__ __device__
+		T& operator()(int i, int j, int k)const noexcept{
+			return data[i + j*jstride + k*kstride];
+		}
 };
 
 __host__ __device__
@@ -44,7 +44,8 @@ void ParallelFor(int nx, int ny, int nz, L &&f){
 	int len_x = nx;
 	LAUNCH_KERNEL(512, 1, 256, 0,
     	[=] __device__ () noexcept{ 	
-		for(int icell=0; icell<nx*ny*nz; icell++){
+		for(int icell = blockDim.x*blockIdx.x+threadIdx.x, stride = blockDim.x*gridDim.x;
+             icell < nx*ny*nz; icell += stride){
 			int k = icell/len_xy;
 			int j = (icell - k*len_xy)/len_x;
 			int i = (icell - k*len_xy - j*len_x); 
