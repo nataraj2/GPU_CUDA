@@ -11,8 +11,8 @@ using namespace std;
 #define LAUNCH_KERNEL(MT, blocks, threads, sharedMem, ... ) \
         launch_global<MT><<<blocks, threads, sharedMem>>>(__VA_ARGS__)
 
-template<int amrex_launch_bounds_max_threads, class L>
-__launch_bounds__(amrex_launch_bounds_max_threads)
+template<int launch_bounds_max_threads, class L>
+__launch_bounds__(launch_bounds_max_threads)
 __global__ void launch_global (L f0) { f0(); }
 
 template<class T>
