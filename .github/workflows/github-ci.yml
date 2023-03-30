@@ -1,24 +1,52 @@
-name: Build and Run Test
+name: C++ build and test
 
-on:
-  push:
-    branches: [master]
-  pull_request:
-    branches: [master]
+on: [push, pull_request]
 
 jobs:
   build:
     runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        compiler: [serial]
+
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-      - name: Install CUDA toolkit
-        uses: nvidia/cuda-toolkit-install@v1
-        with:
-          cuda-version: '11.2'
-          username: ${{ secrets.NVIDIA_USERNAME }}
-          password: ${{ secrets.NVIDIA_PASSWORD }}
-      - name: Compile and run test.cpp
-        run: |
-          nvcc --extended-lambda test.cpp -o test
-          ./test
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up C++ build environment
+      uses: actions/setup-node@v2
+      with:
+        node-version: '16.x'
+
+    - name: Install serial/parallel compiler
+      run: |
+        if [ "${{ matrix.compiler }}" = "serial" ]; then
+          sudo apt-get install g++
+        else
+          sudo apt-get install g++-9
+        fi
+
+    - name: Compile 1D
+      run: |
+          g++ -o program-serial ParallelFor.cpp
+
+    - name: Run C++ program with serial/parallel executable
+      run: |
+        if [ "${{ matrix.compiler }}" = "serial" ]; then
+          ./program-serial
+        else
+          ./program-parallel
+        fi
+
+    - name: Compile 3D
+      run: |
+          g++ -o program-serial ParallelFor_3D.cpp
+
+    - name: Run C++ program with serial/parallel executable
+      run: |
+        if [ "${{ matrix.compiler }}" = "serial" ]; then
+          ./program-serial
+        else
+          ./program-parallel
+        fi
