@@ -19,10 +19,12 @@ using namespace std;
 
 template<class T>
 struct Array4{
-	T* data;
+	T* __restrict__ data;
 	int jstride;
 	int kstride;
-	public:
+
+	constexpr Array4(T* a_p, int a_len_x, int a_len_xy): data(a_p), jstride(a_len_x), kstride(a_len_xy){};
+
 	T& operator()(int i, int j, int k)const noexcept{
 		return data[i + j*jstride + k*kstride];
 	}
@@ -49,15 +51,21 @@ void ParallelFor(int nx, int ny, int nz, L &&f){
 	}
 }
 
+template <typename T>
+Array4<T>
+makeArray4 (T* p, int nx, int ny, int nz) noexcept
+{
+	int len_xy = nx*ny;
+    int len_x = nx;
+    return Array4<T>{new double[nx*ny*nz], len_x, len_xy};
+}
+
 int main(){
 	
 	int nx = 5, ny = 4, nz = 3;
 
-	int len_xy = nx*ny;
-	int len_x = nx;
+	Array4<double> vec = makeArray4(new double[nx*ny*nz], nx, ny, nz);
 
-	Array4<double> vec{new double[nx*ny*nz], len_x, len_xy} ;
-	
 	ParallelFor(nx, ny, nz,
 	[=](int i, int j, int k)noexcept
 	{
