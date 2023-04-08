@@ -1,24 +1,40 @@
-name: Run Code
+name: C++ build and test
 
-on:
-  push:
-    branches:
-      - main
+on: [push, pull_request]
 
 jobs:
-  run_code:
+  build:
     runs-on: ubuntu-latest
 
+    strategy:
+      matrix:
+        compiler: [serial]
+
     steps:
-    - name: Checkout Repository
+    - name: Checkout code
       uses: actions/checkout@v2
 
-	- name: Install Dependencies
-      run: |
-        npm install
+    - name: Set up C++ build environment
+      uses: actions/setup-node@v2
+      with:
+        node-version: '16.x'
 
-    - name: Run Code
+    - name: Install serial/parallel compiler
       run: |
-        cd ./CPUAndGPU
-        make
-        ./parallel_for_cpu.ex
+        if [ "${{ matrix.compiler }}" = "serial" ]; then
+          sudo apt-get install g++
+        else
+          sudo apt-get install g++-9
+        fi
+    - name: Compile 3D
+      run: |
+		   cd ./CPUAndGPU
+		   make
+          
+    - name: Run C++ program with serial/parallel executable
+      run: |
+        if [ "${{ matrix.compiler }}" = "serial" ]; then
+          ./program-serial
+        else
+          ./program-parallel
+        fi
