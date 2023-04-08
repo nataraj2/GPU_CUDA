@@ -33,7 +33,7 @@ jobs:
     - name: Run C++ program with serial/parallel executable
       run: |
         if [ "${{ matrix.compiler }}" = "serial" ]; then
-          ./parallel_for_cpu.ex
+          parallel_for_cpu.ex
         else
-          ./parallel_for_cpu.ex
+          parallel_for_cpu.ex
         fi
