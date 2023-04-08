@@ -1,6 +1,4 @@
 #include <iostream>
-#include <cuda_runtime.h>
-#include <cuda_runtime_api.h>
 
 #include <iostream>
 #include <cmath>
@@ -10,6 +8,8 @@
 #include "ParallelForGPU.H"
 #define MY_VARIABLE "Using GPU"
 #define SYNC cudaDeviceSynchronize()
+#include <cuda_runtime.h>
+#include <cuda_runtime_api.h>
 #else 
 #define MY_VARIABLE "Using CPU"
 #include "ParallelForCPU.H"
