@@ -28,7 +28,7 @@ jobs:
         fi
     - name: Compile 3D
       run: |
-		   cd ./CPUAndGPU
+		   #cd ./CPUAndGPU
 		   make
           
     - name: Run C++ program with serial/parallel executable
