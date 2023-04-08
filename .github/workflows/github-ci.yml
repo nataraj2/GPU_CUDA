@@ -29,11 +29,11 @@ jobs:
     - name: Compile 3D
       run: |
        cd CPUAndGPU	
-       g++ -o program-serial ParallelFor_3D.cpp
+	   make
     - name: Run C++ program with serial/parallel executable
       run: |
         if [ "${{ matrix.compiler }}" = "serial" ]; then
-          ./program-serial
+          ./parallel_for_cpu.ex
         else
-          ./program-parallel
+          ./parallel_for_cpu.ex
         fi
