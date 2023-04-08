@@ -28,7 +28,8 @@ jobs:
         fi
     - name: Compile 3D
       run: |
-          g++ -o program-serial ParallelFor_3D.cpp
+	   cd ./CPUAndGPU	
+       g++ -o program-serial ParallelFor_3D.cpp
     - name: Run C++ program with serial/parallel executable
       run: |
         if [ "${{ matrix.compiler }}" = "serial" ]; then
