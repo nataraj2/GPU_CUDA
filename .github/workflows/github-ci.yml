@@ -33,6 +33,7 @@ jobs:
        ls
     - name: Run C++ program with serial/parallel executable
       run: |
+        cd CPUAndGPU
         if [ "${{ matrix.compiler }}" = "serial" ]; then
           parallel_for_cpu.ex
         else
