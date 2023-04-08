@@ -22,7 +22,8 @@ jobs:
     - name: Install serial/parallel compiler
       run: |
         if [ "${{ matrix.compiler }}" = "serial" ]; then
-          sudo apt-get install mpicxx
+          sudo apt-get update
+          sudo apt-get install -y mpicxx
         else
           sudo apt-get install mpicxx
         fi
