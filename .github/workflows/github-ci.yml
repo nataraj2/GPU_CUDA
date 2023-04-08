@@ -22,10 +22,9 @@ jobs:
     - name: Install serial/parallel compiler
       run: |
         if [ "${{ matrix.compiler }}" = "serial" ]; then
-          sudo apt-get update
-          sudo apt-get install -y mpicxx
+          sudo apt-get install g++
         else
-          sudo apt-get install mpicxx
+          sudo apt-get install g++-9
         fi
     - name: Compile 3D
       run: |
