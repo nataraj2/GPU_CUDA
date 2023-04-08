@@ -11,7 +11,7 @@ CXXFLAGS = -x cu --expt-extended-lambda --expt-relaxed-constexpr --expt-relaxed-
 USE_CUDA ?= true
 TARGET:= parallel_for_gpu.ex
 else
-CXX := mpicxx
+CXX := g++
 CXXFLAGS = --std=c++14 
 USE_CUDA ?= false
 TARGET:= parallel_for_cpu.ex
