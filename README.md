@@ -30,7 +30,7 @@ Note that the function that is to be offloaded to the device is written as a lam
 captured by value using the capture clause ```[=]```. There are two implementations of the ```ParallelFor``` function, 
 and a ```#ifdef``` is used to choose which implementation to use depending on if we are using a CPU or a GPU. 
 
-## ParallelFor for GPU
+## ```ParallelFor``` for GPU
 ```ParallelForGPU.H``` contains the implementation of the ```ParallelFor``` function for GPU using CUDA. It calls a macro 
 which launches a kernel ```LAUNCH_KERNEL``` with the specified number of blocks, threads, stream and shared memory (optionally). 
 A grid-stride loop is used so that cases with the data array exceeding the number of threads are automatically handled, and this 
