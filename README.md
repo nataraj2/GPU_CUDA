@@ -21,7 +21,7 @@ for(int i=0;i<nx;i++){
 }
 ```
 where ```test_function``` is a function which performs computation on ```vel``` and ```pressure```. The GPU implementation of 
-this nested for-loop in the code will look like below  
+this nested for-loop will look as below  
 ```
 ParallelFor(nx, ny, nz,
 	[=] DEVICE (int i, int j, int k)noexcept
