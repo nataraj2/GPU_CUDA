@@ -34,7 +34,7 @@ void ParallelFor(int nx, int ny, int nz, L &&f){
 		std::cout << "Launching kernel " << "\n";
 		int len_xy = nx*ny;
 		int len_x = nx;
-		LAUNCH_KERNEL(512, 2, 10, 0,
+		LAUNCH_KERNEL(512, 2, 256, 0,
     		[=] DEVICE () noexcept{	
 			for(int icell = blockDim.x*blockIdx.x+threadIdx.x, stride = blockDim.x*gridDim.x;
         	icell < nx*ny*nz; icell += stride){
