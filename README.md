@@ -6,8 +6,8 @@ computations onto a CUDA GPU device.
 ## Running 
 The directory ```CPUAndGPU``` contains the code. To run the code with GPU, the machine you run needs to have a CUDA installation.
 The ```Makefile``` has a variable ```USE_CUDA``` which can be defined as ```true``` or 
-```false``` and that will compile the GPU and CPU versions of the code respectively. 
-The executable is ```parallel_for_gpu.ex``` or ```parallel_for_cpu.ex``` for the GPU and CPU compilations respectively.
+```false``` and that will compile the GPU and pure CPU versions of the code respectively. 
+The executable is ```parallel_for_gpu.ex``` or ```parallel_for_cpu.ex``` for the GPU and pure CPU compilations respectively.
 
 ## How does it work? 
 Consider a simple three-dimensional nested for-loop which performs computation within a function as below      
@@ -31,7 +31,7 @@ ParallelFor(nx, ny, nz,
 ```
 ```ParallelFor``` is a function that takes in 4 arguments - ```nx, ny, nz``` and the function that will be offloaded 
 to the GPU device. ```DEVICE``` is a macro which is defined as ```__device___``` when using GPU or expands to blank space 
-when using CPU. See the header files for the definition.  Note that the function that is to be offloaded to the device 
+when using pure CPU. See the header files for the definition.  Note that the function that is to be offloaded to the device 
 is written as a lambda function with the variables captured by value using the capture clause ```[=]```. There are two 
 implementations of the ```ParallelFor``` function, and a ```#ifdef``` is used to choose which implementation to use depending 
 on if we are using a CPU or a GPU.  
