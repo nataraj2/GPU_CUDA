@@ -22,7 +22,7 @@ for(int i=0;i<nx;i++){
 ```
 where ```test_function``` is a function which performs computation on ```vel``` and ```pressure```. The GPU implementation of 
 this nested for-loop will look as below. This would be the only change that the user will have to make in the application code. 
-The header files will have all the functionality to offload the function on to the device i.e. the GPU. 
+The header files will have all the functionality to offload the function - ```test_function``` on to the device i.e. the GPU. 
 ```
 ParallelFor(nx, ny, nz,
 	[=] DEVICE (int i, int j, int k)noexcept
