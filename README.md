@@ -1,10 +1,10 @@
-# How to offload a for-loop onto a CUDA GPU device
+# How to offload computation onto a CUDA GPU device?
 
 This repository contains a minimal working example of how to offload 
-for-loops onto a CUDA GPU device.
+computations onto a CUDA GPU device.
 
 # Explanation of the code 
-Consider a simple three-dimensional for-loop as   
+Consider a simple three-dimensional nested for-loop which performs computation within a function as below      
 ```
 for(int i=0;i<nx;i++){
   for(int j=0;j<ny;j++){
@@ -14,7 +14,17 @@ for(int i=0;i<nx;i++){
   }
 }
 ```
-where ```test_function``` is a function which performs computation on ```vel``` and ```pressure```. 
+where ```test_function``` is a function which performs computation on ```vel``` and ```pressure```.  
+The GPU implementation of this for loop in the code will look like below  
+```
+ParallelFor(nx, ny, nz,
+	[=] DEVICE (int i, int j, int k)noexcept
+	{
+		test_function(i, j, k, vel, pressure);
+	});
+```
+
+
  
 # Run the example in Google Colab  
 The example can also be run on Google Colab. The notebook ```GPU_CUDA_Colab.ipynb``` can be run as it is on Google Colab.
