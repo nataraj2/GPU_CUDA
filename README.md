@@ -5,7 +5,7 @@ computations onto a CUDA GPU device.
 
 ## Running 
 The directory ```CPUAndGPU``` contains the code. The ```Makefile``` has a variable 
-```USE_CUDA``` which can be defined as ```true``` or ``false``` and that will compile the 
+```USE_CUDA``` which can be defined as ```true``` or ```false``` and that will compile the 
 GPU and CPU versions of code respectively. The executable is ```parallel_for_gpu.ex``` or
 ```parallel_for_cpu.ex``` for the GPU and CPU compilations respectively.
 
