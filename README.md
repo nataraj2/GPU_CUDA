@@ -15,8 +15,6 @@ for(int i=0;i<nx;i++){
 }
 ```
 where ```test_function``` is a function which performs computation on ```vel``` and ```pressure```. 
-```
  
-
 # Run the example in Google Colab  
 The example can also be run on Google Colab. The notebook ```GPU_CUDA_Colab.ipynb``` can be run as it is on Google Colab.
