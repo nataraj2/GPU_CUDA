@@ -54,4 +54,4 @@ and ```call_f``` will call the function which does the computation inside the ne
  
 ## Run the example in Google Colab  
 The example can also be run on Google Colab. The notebook ```GPU_CUDA_Colab.ipynb``` can be run as it is on Google Colab. 
-To run on CPU use the ```#include "ParallelForCPU.H"``` and for GPU use ```#include "ParallelForGPU.H".
+To run on CPU use the ```#include "ParallelForCPU.H"``` and for GPU use ```#include "ParallelForGPU.H"```.
