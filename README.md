@@ -50,7 +50,7 @@ for(int icell = blockDim.x*blockIdx.x+threadIdx.x, stride = blockDim.x*gridDim.x
 		call_f(f, i, j, k);	
 }
 ```
-and ```call_f``` will call the function which does the computation inside the nested for-loops - ```test_function`` in this case.
+and ```call_f``` will call the function which does the computation inside the nested for-loops - ```test_function``` in this case.
  
 ## Run the example in Google Colab  
 The example can also be run on Google Colab. The notebook ```GPU_CUDA_Colab.ipynb``` can be run as it is on Google Colab. 
