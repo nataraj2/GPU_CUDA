@@ -3,7 +3,7 @@
 This repository contains a minimal working example of how to offload 
 computations onto a CUDA GPU device.
 
-## Explanation of the code 
+## How does it work? 
 Consider a simple three-dimensional nested for-loop which performs computation within a function as below      
 ```
 for(int i=0;i<nx;i++){
