@@ -3,7 +3,7 @@
 This repository contains a minimal working example of how to offload 
 computations onto a CUDA GPU device.
 
-# Explanation of the code 
+## Explanation of the code 
 Consider a simple three-dimensional nested for-loop which performs computation within a function as below      
 ```
 for(int i=0;i<nx;i++){
@@ -31,5 +31,5 @@ captured by value using the capture clause ```[=]```.
 
 
  
-# Run the example in Google Colab  
+## Run the example in Google Colab  
 The example can also be run on Google Colab. The notebook ```GPU_CUDA_Colab.ipynb``` can be run as it is on Google Colab.
