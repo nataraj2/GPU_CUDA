@@ -40,7 +40,17 @@ on if we are using a CPU or a GPU.
 ```ParallelForGPU.H``` contains the implementation of the ```ParallelFor``` function for GPU using CUDA. It calls a macro -  ```LAUNCH_KERNEL``` 
 which launches the kernel with the specified number of blocks, threads, stream and shared memory (optionally). 
 A grid-stride loop is used so that cases with the data array exceeding the number of threads are automatically handled, and this 
-results in a flexible kernel. 
+results in a flexible kernel. The function launched by the kernel looks as below 
+```
+for(int icell = blockDim.x*blockIdx.x+threadIdx.x, stride = blockDim.x*gridDim.x;
+	icell < nx*ny*nz; icell += stride){
+		int k = icell/len_xy;
+		int j = (icell - k*len_xy)/len_x;
+		int i = (icell - k*len_xy - j*len_x); 
+		call_f(f, i, j, k);	
+}
+```
+and ```call_f``` will call the function which does the computation inside the nested for-loops - ```test_function`` in this case.
  
 ## Run the example in Google Colab  
 The example can also be run on Google Colab. The notebook ```GPU_CUDA_Colab.ipynb``` can be run as it is on Google Colab. 
