@@ -32,7 +32,7 @@ ParallelFor(nx, ny, nz,
 	});
 ```
 ```ParallelFor``` is a function that takes in 4 arguments - ```nx, ny, nz``` and the function that will be offloaded 
-to the GPU device. ```DEVICE``` is a macro which is defined as ```__device___``` when using GPU or expands to blank space 
+to the GPU device. ```DEVICE``` is a macro which is defined as ```__device__``` when using GPU or expands to blank space 
 when using pure CPU. See the header files for the definition.  Note that the function that is to be offloaded to the device 
 is written as a lambda function with the variables captured by value using the capture clause ```[=]```. There are two 
 implementations of the ```ParallelFor``` function - one each in the header file ```ParallelForCPU.H``` and ```ParallelForGPU.H```, 
