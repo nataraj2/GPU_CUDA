@@ -41,7 +41,7 @@ and a ```#ifdef``` is used to choose which implementation to use depending on if
 ## ```ParallelFor``` for GPU
 ```ParallelForGPU.H``` contains the implementation of the ```ParallelFor``` function for GPU using CUDA. It calls a macro -  ```LAUNCH_KERNEL``` 
 which launches the kernel with the specified number of blocks, threads, stream and shared memory (optionally). 
-A grid-stride loop is used so that cases with the data array exceeding the number of threads are automatically handled, and this 
+A [grid-stride loop](https://developer.nvidia.com/blog/cuda-pro-tip-write-flexible-kernels-grid-stride-loops/) is used so that cases with the data array exceeding the number of threads are automatically handled, and this 
 results in a flexible kernel. The function launched by the kernel looks as below 
 ```
 for(int icell = blockDim.x*blockIdx.x+threadIdx.x, stride = blockDim.x*gridDim.x;
