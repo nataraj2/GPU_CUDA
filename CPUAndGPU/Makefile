@@ -10,7 +10,8 @@ CXX := nvcc
 CXXFLAGS = -x cu --expt-extended-lambda --expt-relaxed-constexpr --expt-relaxed-constexpr -DUSE_CUDA=$(USE_CUDA)
 TARGET:= parallel_for_gpu.ex
 else
-CXX := mpicxx 
+#CXX := mpicxx 
+CXX := g++
 CXXFLAGS = --std=c++14 
 TARGET:= parallel_for_cpu.ex
 endif
