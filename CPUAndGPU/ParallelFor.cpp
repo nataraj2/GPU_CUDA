@@ -10,9 +10,9 @@
 	#define SYNC cudaDeviceSynchronize()
 	#define print_gpu_details print_gpu_details()
 #else 
+	#include "ParallelForCPU.H"
 	#define USE_CUDA false
 	#define RUN_MODE "Using CPU"
-	#include "ParallelForCPU.H"
 	#define SYNC
 	#define print_gpu_details 
 #endif
