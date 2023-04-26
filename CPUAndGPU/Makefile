@@ -7,13 +7,11 @@ COMPARISON:= true
 
 ifeq ($(strip $(USE_CUDA)), $(strip $(COMPARISON)))
 CXX := nvcc
-CXXFLAGS = -x cu --expt-extended-lambda --expt-relaxed-constexpr --expt-relaxed-constexpr
-USE_CUDA ?= true
+CXXFLAGS = -x cu --expt-extended-lambda --expt-relaxed-constexpr --expt-relaxed-constexpr -DUSE_CUDA=$(USE_CUDA)
 TARGET:= parallel_for_gpu.ex
 else
-CXX := mpicxx
+CXX := mpicxx 
 CXXFLAGS = --std=c++14 
-USE_CUDA ?= false
 TARGET:= parallel_for_cpu.ex
 endif
 
@@ -38,7 +36,7 @@ SRC = ParallelFor.cpp
 
 # Rule to build the target
 $(TARGET): $(OBJ)
-	$(CXX) $(CXXFLAGS) -DUSE_CUDA=$(USE_CUDA) $(SRC) -o $(TARGET)
+	$(CXX) $(CXXFLAGS) $(SRC) -o $(TARGET)
 
 # Rule to build object files
 #%.o: %.cpp

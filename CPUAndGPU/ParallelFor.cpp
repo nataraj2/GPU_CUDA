@@ -1,19 +1,22 @@
 #include <iostream>
-#include <cuda_runtime.h>
-#include <cuda_runtime_api.h>
 
 #include <iostream>
 #include <cmath>
 #include <vector>
 
-#ifndef USE_CUDA
-#include "ParallelForGPU.H"
-#define MY_VARIABLE "Using GPU"
-#define SYNC cudaDeviceSynchronize()
+#ifdef USE_CUDA
+	#include <cuda_runtime.h>
+	#include <cuda_runtime_api.h>
+	#include "ParallelForGPU.H"
+	#define RUN_MODE "Using GPU"
+	#define SYNC cudaDeviceSynchronize()
+	#define print_gpu_details print_gpu_details()
 #else 
-#define MY_VARIABLE "Using CPU"
-#include "ParallelForCPU.H"
-#define SYNC
+	#define USE_CUDA false
+	#define RUN_MODE "Using CPU"
+	#include "ParallelForCPU.H"
+	#define SYNC
+	#define print_gpu_details 
 #endif
 
 using namespace std;
@@ -28,7 +31,7 @@ inline void test_function(int i, int j, int k,
 
 int main(){
 
-	cout << MY_VARIABLE << "\n";
+	cout << "Run mode is " << RUN_MODE << "\n";
 
 	int nx = 5, ny = 4, nz = 3;
     
@@ -43,6 +46,10 @@ int main(){
 	{
 		test_function(i, j, k, vel, pressure);
 	});
+	
+#ifdef USE_CUDA
+	print_gpu_details;	
+#endif
 
 	SYNC;
 
