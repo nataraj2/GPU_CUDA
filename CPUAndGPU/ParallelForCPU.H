@@ -1,20 +1,4 @@
-#define HOST 
-#define DEVICE 
-
-template<typename T>
-struct Array4{
-	T* data;
-	int jstride;
-	int kstride;
-
-  constexpr Array4(T* a_p): data(a_p){};
-
-	public:
-    	HOST DEVICE
-		T& operator()(int i, int j, int k)const noexcept{
-						return data[i + j*jstride + k*kstride];
-		}
-};
+#include "Array4.H"
 
 template <typename F>
 auto call_f(F const &f, int i, int j, int k){

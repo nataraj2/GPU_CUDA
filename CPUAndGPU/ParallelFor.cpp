@@ -5,8 +5,6 @@
 #include <vector>
 
 #ifdef USE_CUDA
-	#include <cuda_runtime.h>
-	#include <cuda_runtime_api.h>
 	#include "ParallelForGPU.H"
 	#define RUN_MODE "Using GPU"
 	#define SYNC cudaDeviceSynchronize()
@@ -27,6 +25,7 @@ inline void test_function(int i, int j, int k,
 			  			  Array4<double> const &pressure) {
 	vel(i, j, k) = i+j+k;
 	pressure(i,j,k) = 2*i*j;
+
 }
 
 int main(){

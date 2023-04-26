@@ -1,10 +1,27 @@
-#define HOST __host__
-#define DEVICE __device__
+#include "Array4.H"
 
 #define GPU_MAX_THREADS 512
 
 #define LAUNCH_KERNEL(MT, blocks, threads, sharedMem, ... ) \
         launch_global<MT><<<blocks, threads, sharedMem>>>(__VA_ARGS__)
+
+class MultiFab{
+		
+	int nx, ny, nz;
+	public:
+		
+	MultiFab(int a_nx, int a_ny, int a_nz): nx(a_nx), ny(a_ny), nz(a_nz){};
+
+	Array4<double> array()
+	{
+		Array4<double> *vec;
+		cudaMallocManaged((void**)&vec, sizeof(Array4<double>));
+		cudaMallocManaged((void**)&(vec[0].data), nx*ny*nz*sizeof(double));
+		vec[0].jstride = nx;
+		vec[0].kstride = nx*ny;
+		return vec[0];
+	}		
+};
 
 void print_gpu_details(){
         cudaDeviceProp prop;
@@ -29,20 +46,6 @@ void print_gpu_details(){
 }
 
 
-template<typename T>
-struct Array4{
-	T* data;
-	int jstride;
-	int kstride;
-
-  constexpr Array4(T* a_p): data(a_p){};
-
-	public:
-    	HOST DEVICE
-		T& operator()(int i, int j, int k)const noexcept{
-						return data[i + j*jstride + k*kstride];
-		}
-};
 
 template<int launch_bounds_max_threads, class L>
 __launch_bounds__(launch_bounds_max_threads)
@@ -75,28 +78,4 @@ void ParallelFor(int nx, int ny, int nz, L &&f){
 		});
 }
 
-template <typename T>
-HOST DEVICE inline
-Array4<T>
-makeArray4 (T* p) noexcept
-{ 
-    return Array4<T>{p};
-}
 
-class MultiFab{
-		
-	int nx, ny, nz;
-	public:
-		
-	MultiFab(int a_nx, int a_ny, int a_nz): nx(a_nx), ny(a_ny), nz(a_nz){};
-
-	Array4<double> array()
-	{
-		Array4<double> *vec;
-		cudaMallocManaged((void**)&vec, sizeof(Array4<double>));
-		cudaMallocManaged((void**)&(vec[0].data), nx*ny*nz*sizeof(double));
-		vec[0].jstride = nx;
-		vec[0].kstride = nx*ny;
-		return vec[0];
-	}		
-};
