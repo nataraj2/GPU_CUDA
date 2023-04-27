@@ -21,9 +21,9 @@ for(int i=0;i<nx;i++){
 }
 ```
 where ```test_function``` is a function which performs computation on ```vel``` and ```pressure```. The GPU implementation of 
-this nested for-loop will look as below. **This would be the only change that the user will have to make in the application code. 
-The header files have templated functions which will offload any function written within the for-loop 
-(```test_function``` in this case) onto the device i.e. the GPU.** 
+this nested for-loop will look as below. **This would be one of the major changes (there is one more that is explained in a later section) 
+the user will have to make in the application code. The header files have templated functions which will offload any function written within 
+the for-loop (```test_function``` in this case) onto the device i.e. the GPU.** 
 ```
 ParallelFor(nx, ny, nz,
 	[=] DEVICE (int i, int j, int k)noexcept
@@ -34,7 +34,7 @@ ParallelFor(nx, ny, nz,
 ```ParallelFor``` is a function that takes in 4 arguments - ```nx, ny, nz``` and the function that will be offloaded 
 to the GPU device. ```DEVICE``` is a macro which is defined as ```__device__``` when using GPU or expands to blank space 
 when using pure CPU. Similary there is a macro for `HOST` which is `__host__` or blank space depending on if we are using a GPU or CPU. 
-See the header files for the definition.  Note that the function that is to be offloaded to the device 
+See `GPUMacros.H` for the definitions. Note that the function that is to be offloaded to the device 
 is written as a lambda function with the variables captured by value using the capture clause ```[=]```. There are two 
 implementations of the ```ParallelFor``` function - one each in the header file ```ParallelForCPU.H``` and ```ParallelForGPU.H```, 
 and a ```#ifdef``` is used to choose which implementation to use depending on if we are using a CPU or a GPU.  
@@ -55,6 +55,22 @@ for(int icell = blockDim.x*blockIdx.x+threadIdx.x, stride = blockDim.x*gridDim.x
 }
 ```
 and ```call_f``` will call the function which does the computation inside the nested for-loops - ```test_function``` in this case.
+
+## Creating a data type
+The vaariables wihin the function that needs to be offloaded to the device - `test_function`, are captured by value, and this 
+necessitates the variables to have the `const` qualifier in the definition of the function. 
+```inline void test_function(int i, int j, int k,
+                          Array4<double> const &vel,
+                          Array4<double> const &pressure) {
+    vel(i, j, k) = i+j+k;
+    pressure(i,j,k) = 2*i*j;
+}``` 
+But usually, if the variables are `const` then it cannot be modified. Hence, a `struct Array4` is defined and the parantheses operator 
+`()` is overloaded as in `Array4.H`. This allows values of these `Array4` variables to be updated.
+
+
+
+
  
 ## Run the example in Google Colab  
 The example can also be run on Google Colab. The notebook ```GPU_CUDA_Colab.ipynb``` can be run as it is on Google Colab. 
