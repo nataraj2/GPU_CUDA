@@ -59,12 +59,14 @@ and ```call_f``` will call the function which does the computation inside the ne
 ## Creating a data type
 The vaariables wihin the function that needs to be offloaded to the device - `test_function`, are captured by value, and this 
 necessitates the variables to have the `const` qualifier in the definition of the function. 
-```inline void test_function(int i, int j, int k,
+```
+inline void test_function(int i, int j, int k,
                           Array4<double> const &vel,
                           Array4<double> const &pressure) {
     vel(i, j, k) = i+j+k;
     pressure(i,j,k) = 2*i*j;
-}``` 
+}
+``` 
 But usually, if the variables are `const` then it cannot be modified. Hence, a `struct Array4` is defined and the parantheses operator 
 `()` is overloaded as in `Array4.H`. This allows values of these `Array4` variables to be updated.
 
