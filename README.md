@@ -68,7 +68,8 @@ inline void test_function(int i, int j, int k,
 }
 ``` 
 If the variables were of the standard types such as an array for example, and are `const`, then they cannot be modified inside the function. Hence, a struct `Array4` 
-is defined for the variables, and the parantheses operator `()` is overloaded as in `Array4.H`. This allows values of these `Array4` variables to be updated inside the function.
+is defined for the variables, and the parantheses operator `()` is overloaded as in `Array4.H`. This allows values of these `Array4` variables to be updated inside the function. 
+Notice how the variables are accessed as in a fortran style - `vel(i,j,k)`.  
 
 
 
