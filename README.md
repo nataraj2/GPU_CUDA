@@ -57,7 +57,7 @@ for(int icell = blockDim.x*blockIdx.x+threadIdx.x, stride = blockDim.x*gridDim.x
 and ```call_f``` will call the function which does the computation inside the nested for-loops - ```test_function``` in this case.
 
 ## Creating a data type
-The variables - `vel`, `pressure`, wihin the function that needs to be offloaded to the device - `test_function`, are captured by value, and this 
+The variables - `vel`, `pressure`, within the function that needs to be offloaded to the device - `test_function`, are captured by value, and this 
 necessitates the variables to have the const`qualifier in the definition of the function. 
 ```
 inline void test_function(int i, int j, int k,
