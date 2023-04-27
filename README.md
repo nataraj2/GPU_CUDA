@@ -57,8 +57,8 @@ for(int icell = blockDim.x*blockIdx.x+threadIdx.x, stride = blockDim.x*gridDim.x
 and ```call_f``` will call the function which does the computation inside the nested for-loops - ```test_function``` in this case.
 
 ## Creating a data type
-The vaariables wihin the function that needs to be offloaded to the device - `test_function`, are captured by value, and this 
-necessitates the variables to have the `const` qualifier in the definition of the function. 
+The variables -- `vel`, `'pressure`, wihin the function that needs to be offloaded to the device - `test_function`, are captured by value, and this 
+necessitates the variables to have the const`qualifier in the definition of the function. 
 ```
 inline void test_function(int i, int j, int k,
                           Array4<double> const &vel,
@@ -67,8 +67,8 @@ inline void test_function(int i, int j, int k,
     pressure(i,j,k) = 2*i*j;
 }
 ``` 
-But usually, if the variables are `const` then it cannot be modified. Hence, a `struct Array4` is defined and the parantheses operator 
-`()` is overloaded as in `Array4.H`. This allows values of these `Array4` variables to be updated.
+If the variables were of the standard types such as an array for example, and are `const` then they cannot be modified. Hence, a struct `Array4` 
+is defined for the variables, and the parantheses operator `()` is overloaded as in `Array4.H`. This allows values of these `Array4` variables to be updated inside the function.
 
 
 
