@@ -39,21 +39,6 @@ is written as a lambda function with the variables captured by value using the c
 implementations of the `ParallelFor` function - one each in the header file `ParallelForCPU.H` and `ParallelForGPU.H`, 
 and a `#ifdef` in the main function `ParallelFor.cpp` is used to choose which implementation to use depending on if we are using a CPU or a GPU.  
 
-## ```ParallelFor``` for GPU
-```ParallelForGPU.H``` contains the implementation of the ```ParallelFor``` function for GPU using CUDA. It calls a macro -  ```LAUNCH_KERNEL``` 
-which launches the kernel with the specified number of blocks, threads, stream and shared memory (optionally). 
-A [grid-stride loop](https://developer.nvidia.com/blog/cuda-pro-tip-write-flexible-kernels-grid-stride-loops/) is used so that cases with the data array size
-exceeding the number of threads are automatically handled, and this results in a flexible kernel. The function launched by the kernel looks as below 
-```
-for(int icell = blockDim.x*blockIdx.x+threadIdx.x, stride = blockDim.x*gridDim.x;
-	icell < nx*ny*nz; icell += stride){
-		int k = icell/len_xy;
-		int j = (icell - k*len_xy)/len_x;
-		int i = (icell - k*len_xy - j*len_x); 
-		call_f(f, i, j, k);	
-}
-```
-and ```call_f``` will call the function which does the computation inside the nested for-loops - ```test_function``` in this case.
 
 ## Creating a data type
 The variables - `vel`, `pressure`, within the function that needs to be offloaded to the device - `test_function`, are captured by value, and this 
@@ -72,7 +57,11 @@ Notice how the variables are accessed as in a fortran style - `vel(i,j,k)`. A cl
 `Array4` object on invoking. The class has two implementations of the `array` function - which uses `cudaMallocManaged` or `malloc` based on if we use GPU or CPU. 
 
 ## Explanation of the GPU kernel launch
-The templated function `ParallelFor` launches the kernel
+`ParallelForGPU.H` contains the implementation of the templated `ParallelFor` function for GPU using CUDA. It calls a macro -  `LAUNCH_KERNEL`
+which launches the kernel with the specified number of blocks, threads, stream and shared memory (optionally). 
+A [grid-stride loop](https://developer.nvidia.com/blog/cuda-pro-tip-write-flexible-kernels-grid-stride-loops/) is used so that cases with the data array size
+exceeding the number of threads are automatically handled, and this results in a flexible kernel. The function launched by the kernel looks as below 
+and `call_f` will call the function which does the computation inside the nested for-loops - `test_function` in this case. The templated function `ParallelFor` launches the kernel
 ```
 template<class L>
 void ParallelFor(int nx, int ny, int nz, L &&f){
@@ -95,6 +84,7 @@ void ParallelFor(int nx, int ny, int nz, L &&f){
         });
 }
 ```
+
 
 
 
