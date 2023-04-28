@@ -93,9 +93,27 @@ void ParallelFor(int nx, int ny, int nz, L &&f){
 }
 ```
 A one-dimensional layout of the threads is used and the i, j, k indices are determined using the `oned_index (icell in the code above) = nx ny nz x k + j x nx + i`. `GPU_MAX_THREADS` is 
-the maximum number of threads per block, and that is fixed to be 512 (CUDA has a limit of 1024 threads per block). The maximum number of blocks is 65536 for 
+the maximum number of threads per block, and that is fixed to be 512 (CUDA 2.0 has a limit of 1024 threads per block and a maximum number of blocks per grid is 65536). In the above example, 
+`GPU_MAX_THREADS` is the number of threads launched per block. 
+
+### Determining the number of blocks
+The line in the code that determines the number of blocks is 
+```
+int numBlocks = (std::max(ncells,1) + GPU_MAX_THREADS - 1 )/GPU_MAX_THREADS;
+```
+In this example, we use `GPU_MAX_THREADS=512`, and `ncells=nx ny nz` is the size of the data that is offloaded onto the device.  Hence,if we `1<=ncells<=512`, we need only 1 block. If 
+`ncells=513`, then we need 2 blocks. This is what the above line of code does.
 
 
+
+
+
+
+
+
+
+
+  
 
 
  
