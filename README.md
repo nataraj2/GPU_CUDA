@@ -45,7 +45,7 @@ implementations of the `ParallelFor` function - one each in the header file `Par
 and a `#ifdef` in the main function `ParallelFor.cpp` is used to choose which implementation to use depending on if we are using a CPU or a GPU.  
 
 
-## Creating a data type
+## The need for a custom data type
 The variables - `vel`, `pressure`, within the function that needs to be offloaded to the device - `test_function`, are captured by value, and this 
 necessitates the variables to have the `const` qualifier in the definition of the function. 
 ```
