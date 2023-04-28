@@ -59,7 +59,7 @@ allocates the variable in the managed memory which is accessible by both the hos
 explicitly copying the variables from the host to the device. This is approach is an easy start to make codes GPU-enabled.
 
 ## Explanation of the GPU kernel launch
-[NVIDIA page for introduction to CUDA](https://docs.nvidia.com/cuda/cuda-c-programming-guide/index.html#features-and-technical-specifications__technical-specifications-per-compute-capability)
+[NVIDIA page for introduction to CUDA](https://docs.nvidia.com/cuda/cuda-c-programming-guide/index.html#features-and-technical-specifications__technical-specifications-per-compute-capability) is a very good read.  
 `ParallelForGPU.H` contains the implementation of the templated `ParallelFor` function for GPU using CUDA. It calls a macro -  `LAUNCH_KERNEL`
 which launches the kernel with the number of blocks and threads being automatically determined, and stream and shared memory (optionally). 
 A [grid-stride loop](https://developer.nvidia.com/blog/cuda-pro-tip-write-flexible-kernels-grid-stride-loops/) is used so that cases with the data array size
