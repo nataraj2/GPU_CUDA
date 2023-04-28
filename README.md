@@ -3,11 +3,12 @@
 This repository contains a minimal working example of how to offload 
 computations onto a CUDA GPU device.
 
-## Running 
-The directory ```CPUAndGPU``` contains the code. To run the code with GPU, the machine you run needs to have a CUDA installation.
-The ```Makefile``` has a variable ```USE_CUDA``` which can be defined as ```true``` or 
-```false``` and that will compile the GPU and pure CPU versions of the code respectively. `make` will compile the code.
-The executable is ```parallel_for_gpu.ex``` or ```parallel_for_cpu.ex``` for the GPU and pure CPU compilations respectively.
+## Compilation and running 
+The directory `CPUAndGPU` contains the code. To run the code with GPU, the machine you run needs to have a CUDA installation.
+The `Makefile` has a variable `USE_CUDA` which can be defined as `true` or 
+`false` and that will compile the GPU and pure CPU versions of the code respectively. `make` will compile the code.
+The executable is `parallel_for_gpu.ex` or `parallel_for_cpu.ex` for the GPU and pure CPU compilations respectively. `make` will 
+compile the code. For running with GPU, CUDA modules should be enabled. Run with `./parallel_for_gpu.ex` or `parallel_for_cpu.ex`.
 
 ## How does it work? 
 Consider a simple three-dimensional nested for-loop which performs computation within a function as below      
