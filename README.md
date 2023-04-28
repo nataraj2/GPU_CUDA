@@ -58,7 +58,7 @@ Notice how the variables are accessed as in a fortran style - `vel(i,j,k)`. A cl
 
 ## Explanation of the GPU kernel launch
 `ParallelForGPU.H` contains the implementation of the templated `ParallelFor` function for GPU using CUDA. It calls a macro -  `LAUNCH_KERNEL`
-which launches the kernel with the specified number of blocks, threads, stream and shared memory (optionally). 
+which launches the kernel with the number of blocks and threads being automatically determined, and stream and shared memory (optionally). 
 A [grid-stride loop](https://developer.nvidia.com/blog/cuda-pro-tip-write-flexible-kernels-grid-stride-loops/) is used so that cases with the data array size
 exceeding the number of threads are automatically handled, and this results in a flexible kernel. The function launched by the kernel looks as below 
 and `call_f` will call the function which does the computation inside the nested for-loops - `test_function` in this case. The templated function `ParallelFor` launches the kernel
@@ -84,6 +84,7 @@ void ParallelFor(int nx, int ny, int nz, L &&f){
         });
 }
 ```
+A one-dimensional layout of the threads is used and the i, j, k indices are determined using the `oned_index = nx*ny*nz*k + j*nx + i`.
 
 
 
