@@ -60,7 +60,7 @@ If the variables were of the standard types such as an array for example, and ar
 is defined for the variables, and the parantheses operator `()` is overloaded as in `Array4.H`. This allows values of these `Array4` variables to be modified inside the function. 
 Notice how the variables are accessed as in a fortran style - `vel(i,j,k)`. A class `MultiFab` is defined in `MultiFab.H`, and with a member function `array` that returns an 
 `Array4` object on invoking. The class has two implementations of the `array` function - which uses `cudaMallocManaged` or `malloc` based on if we use GPU or CPU. `cudaMallocManaged` 
-allocates the variable in the managed memory which is accessible by both the host (CPU) and the device (GPU), hence preventing the need to create variables on the device and 
+allocates the variable in the managed (unified) memory which is accessible by both the host (CPU) and the device (GPU), hence preventing the need to create variables on the device and 
 explicitly copying the variables from the host to the device. This is approach is an easy start to make codes GPU-enabled.
 
 ## Explanation of the GPU kernel launch
