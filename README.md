@@ -52,7 +52,7 @@ inline void test_function(int i, int j, int k,
 }
 ``` 
 If the variables were of the standard types such as an array for example, and are `const`, then they cannot be modified inside the function. Hence, a struct `Array4` 
-is defined for the variables, and the parantheses operator `()` is overloaded as in `Array4.H`. This allows values of these `Array4` variables to be updated inside the function. 
+is defined for the variables, and the parantheses operator `()` is overloaded as in `Array4.H`. This allows values of these `Array4` variables to be modified inside the function. 
 Notice how the variables are accessed as in a fortran style - `vel(i,j,k)`. A class `MultiFab` is defined in `MultiFab.H`, and with a member function `array` that returns an 
 `Array4` object on invoking. The class has two implementations of the `array` function - which uses `cudaMallocManaged` or `malloc` based on if we use GPU or CPU. `cudaMallocManaged` 
 allocates the variable in the managed memory which is accessible by both the host (CPU) and the device (GPU), hence preventing the need to create variables on the device and 
