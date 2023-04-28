@@ -84,7 +84,7 @@ void ParallelFor(int nx, int ny, int nz, L &&f){
         });
 }
 ```
-A one-dimensional layout of the threads is used and the i, j, k indices are determined using the `oned_index = nxnynz x k + j x nx + i`.
+A one-dimensional layout of the threads is used and the i, j, k indices are determined using the `oned_index = nx ny nz x k + j x nx + i`.
 
 
 
