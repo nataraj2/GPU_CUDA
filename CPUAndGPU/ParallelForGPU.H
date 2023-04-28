@@ -1,27 +1,9 @@
-#include "Array4.H"
+#include "MultiFab.H"
 
 #define GPU_MAX_THREADS 512
 
 #define LAUNCH_KERNEL(MT, blocks, threads, sharedMem, ... ) \
         launch_global<MT><<<blocks, threads, sharedMem>>>(__VA_ARGS__)
-
-class MultiFab{
-		
-	int nx, ny, nz;
-	public:
-		
-	MultiFab(int a_nx, int a_ny, int a_nz): nx(a_nx), ny(a_ny), nz(a_nz){};
-
-	Array4<double> array()
-	{
-		Array4<double> *vec;
-		cudaMallocManaged((void**)&vec, sizeof(Array4<double>));
-		cudaMallocManaged((void**)&(vec[0].data), nx*ny*nz*sizeof(double));
-		vec[0].jstride = nx;
-		vec[0].kstride = nx*ny;
-		return vec[0];
-	}		
-};
 
 void print_gpu_details(){
         cudaDeviceProp prop;
