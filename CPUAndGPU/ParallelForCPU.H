@@ -1,4 +1,4 @@
-#include "Array4.H"
+#include "MultiFab.H"
 
 template <typename F>
 auto call_f(F const &f, int i, int j, int k){
@@ -16,20 +16,3 @@ void ParallelFor(int nx, int ny, int nz, L &&f){
   }
 }
 
-class MultiFab{
-		
-	int nx, ny, nz;
-
-	public:
-		
-	MultiFab(int a_nx, int a_ny, int a_nz): nx(a_nx), ny(a_ny), nz(a_nz){};
-
-	Array4<double> array(){
-		Array4<double> *vec;
-        vec = (Array4<double>*)malloc(sizeof(Array4<double>));
-        vec[0].data = (double*)malloc(nx*ny*nz*sizeof(double));
-				vec[0].jstride = nx;
-				vec[0].kstride = nx*ny;
-				return vec[0];
-	}		
-};
