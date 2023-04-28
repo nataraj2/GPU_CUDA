@@ -54,9 +54,12 @@ inline void test_function(int i, int j, int k,
 If the variables were of the standard types such as an array for example, and are `const`, then they cannot be modified inside the function. Hence, a struct `Array4` 
 is defined for the variables, and the parantheses operator `()` is overloaded as in `Array4.H`. This allows values of these `Array4` variables to be updated inside the function. 
 Notice how the variables are accessed as in a fortran style - `vel(i,j,k)`. A class `MultiFab` is defined and within it a function `array` is defined that returns an 
-`Array4` object on invoking. The class has two implementations of the `array` function - which uses `cudaMallocManaged` or `malloc` based on if we use GPU or CPU. 
+`Array4` object on invoking. The class has two implementations of the `array` function - which uses `cudaMallocManaged` or `malloc` based on if we use GPU or CPU. `cudaMallocManaged` 
+allocates the variable in the managed memory which is accessible by both the host (CPU) and the device (GPU), hence preventing the need to create variables on the device and 
+explicitly copying the variables from the host to the device. This is approach is a easy start to make codes GPU-enabled.
 
 ## Explanation of the GPU kernel launch
+[NVIDIA page for introduction to CUDA] (https://docs.nvidia.com/cuda/cuda-c-programming-guide/index.html#features-and-technical-specifications__technical-specifications-per-compute-capability)
 `ParallelForGPU.H` contains the implementation of the templated `ParallelFor` function for GPU using CUDA. It calls a macro -  `LAUNCH_KERNEL`
 which launches the kernel with the number of blocks and threads being automatically determined, and stream and shared memory (optionally). 
 A [grid-stride loop](https://developer.nvidia.com/blog/cuda-pro-tip-write-flexible-kernels-grid-stride-loops/) is used so that cases with the data array size
@@ -84,8 +87,8 @@ void ParallelFor(int nx, int ny, int nz, L &&f){
         });
 }
 ```
-A one-dimensional layout of the threads is used and the i, j, k indices are determined using the `oned_index (icell in the code above) = nx ny nz x k + j x nx + i`.
-
+A one-dimensional layout of the threads is used and the i, j, k indices are determined using the `oned_index (icell in the code above) = nx ny nz x k + j x nx + i`. `GPU_MAX_THREADS` is 
+the maximum number of threads per block, and that is fixed to be 512 (CUDA has a limit of 1024 threads per block). The maximum number of blocks is 65536 for 
 
 
 
