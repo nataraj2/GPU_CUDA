@@ -47,7 +47,8 @@ and a `#ifdef` in the main function `ParallelFor.cpp` is used to choose which im
 
 
 ## The need for a custom data type
-The variables - `vel`, `pressure`, within the function that needs to be offloaded to the device - `test_function`, are captured by value, and this 
+The variables - `vel`, `pressure`, within the function that needs to be offloaded to the device - `test_function`, are captured by value in `ParallelFor` using the 
+capture clause `[=]`, and this 
 necessitates the variables to have the `const` qualifier in the definition of the function. 
 ```
 inline void test_function(int i, int j, int k,
