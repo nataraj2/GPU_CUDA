@@ -13,7 +13,7 @@ compile the code. For running with GPU, CUDA modules should be enabled. Run with
 ## Run in Google Colab  
 The example can also be run on Google Colab. The notebook `GPU_CUDA_Colab.ipynb` is set to run as it is on Google Colab. 
 To run on CPU use the `#include "ParallelForCPU.H"` and for GPU use `#include "ParallelForGPU.H"` in the main program. 
-Make sure to choose `Runtime->Change runtime type->GPU` to use GPUs.
+In the Google Colab page, make sure to choose `Runtime->Change runtime type->GPU` to use GPUs.
 
 ## How does it work? 
 Consider a simple three-dimensional nested for-loop which performs computation within a function as below      
