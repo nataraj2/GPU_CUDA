@@ -68,7 +68,7 @@ explicitly copying the variables from the host to the device. This is approach i
 `ParallelForGPU.H` contains the implementation of the templated `ParallelFor` function for GPU using CUDA. It calls a macro -  `LAUNCH_KERNEL`
 which launches the kernel with the number of blocks and threads being automatically determined, and stream and shared memory (optionally). 
 A [grid-stride loop](https://developer.nvidia.com/blog/cuda-pro-tip-write-flexible-kernels-grid-stride-loops/) is used so that cases with the data array size
-exceeding the total number of threads (which is equal to the stride inside the for-loop, equal to `numBlocks x numThreadsPerBlock`) are automatically handled, and this results in a flexible kernel. The function launched by the kernel looks as below 
+exceeding the total number of threads (which is equal to the stride inside the for-loop, equal to `numThreadsPerBlock (i.e. blockDim.x) x numThreadsPerBlock (i.e. gridDim.x)`) are automatically handled, and this results in a flexible kernel. The function launched by the kernel looks as below 
 and `call_f` will call the function which does the computation inside the nested for-loops - `test_function` in this case. The templated function `ParallelFor` launches the kernel
 ```
 template<class L>
