@@ -37,7 +37,7 @@ ParallelFor(nx, ny, nz,
 ```
 **This would be one of the major changes (there is one more that is explained in the next section) 
 the user will have to make in the application code. The header files have templated functions which will offload any function written within 
-the for-loop (```test_function``` in this case) onto the device i.e. the GPU, and the user does not need to know about these.** 
+the for-loop (```test_function``` in this case) onto the device i.e. the GPU, and the user does not need to know about these.**   
 `ParallelFor` is a function that takes in 4 arguments - `nx, ny, nz` and the function that will be offloaded 
 to the GPU device. ```DEVICE``` is a macro which is defined as `__device__` when using GPU or expands to blank space 
 when using pure CPU. Similary there is a macro for `HOST` which is `__host__` or blank space depending on if we are using a GPU or CPU. 
