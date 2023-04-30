@@ -48,8 +48,9 @@ and a `#ifdef` in the main function `ParallelFor.cpp` is used to choose which im
 
 
 ## The need for a custom data type
-The variables - `vel`, `pressure`, within the function that needs to be offloaded to the device - `test_function`, are captured by value in `ParallelFor` using the 
-capture clause `[=]`, and this necessitates the variables to have the `const` qualifier in the definition of the function as below.
+Another change that will be needed in already written codes to make them GPU-enabled is discussed in this section. The variables - `vel`, `pressure`, within the function 
+that needs to be offloaded to the device - `test_function`, are captured by value in `ParallelFor` using the capture clause `[=]`, and this necessitates the variables to 
+have the `const` qualifier in the definition of the function as below.
 ```
 inline void test_function(int i, int j, int k,
                           Array4<double> const &vel,
