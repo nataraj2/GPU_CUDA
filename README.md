@@ -103,7 +103,7 @@ The line in the code that determines the number of blocks is
 ```
 int numBlocks = (std::max(ncells,1) + GPU_MAX_THREADS - 1 )/GPU_MAX_THREADS;
 ```
-In this example, we use `GPU_MAX_THREADS=512`, and hence the number of threads per block is 512, and `ncells=nx ny nz` is the size of the data that is offloaded onto the device.  
+In this example, we use `GPU_MAX_THREADS=512`, and hence the number of threads per block is 512, and `ncells=nx ny nz` is the size of the data that is offloaded onto the device. 
 Hence, if we have `1<=ncells<=512`, we need only 1 block. If `ncells=513`, then we need 2 blocks. This is what the above line of code does.
 
 
