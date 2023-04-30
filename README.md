@@ -67,8 +67,8 @@ explicitly copying the variables from the host to the device. This is approach i
 [NVIDIA page for introduction to CUDA](https://docs.nvidia.com/cuda/cuda-c-programming-guide/index.html#features-and-technical-specifications__technical-specifications-per-compute-capability) is a very good read.  
 `ParallelForGPU.H` contains the implementation of the templated `ParallelFor` function for GPU using CUDA. It calls a macro -  `LAUNCH_KERNEL`
 which launches the kernel with the number of blocks and threads being automatically determined, and stream and shared memory (optionally). 
-A [grid-stride loop](https://developer.nvidia.com/blog/cuda-pro-tip-write-flexible-kernels-grid-stride-loops/) (explained in section below as well) is used so that cases with the data array size
-exceeding the total number of threads (which is equal to the stride inside the for-loop and is equal to the numBloks x numThreadsPerBlock) are automatically handled, and this results in a flexible kernel. The function launched by the kernel looks as below 
+A [grid-stride loop](https://developer.nvidia.com/blog/cuda-pro-tip-write-flexible-kernels-grid-stride-loops/) is used so that cases with the data array size
+exceeding the total number of threads (which is equal to the stride inside the for-loop, equal to `numBlocks x numThreadsPerBlock`) are automatically handled, and this results in a flexible kernel. The function launched by the kernel looks as below 
 and `call_f` will call the function which does the computation inside the nested for-loops - `test_function` in this case. The templated function `ParallelFor` launches the kernel
 ```
 template<class L>
@@ -96,11 +96,6 @@ A one-dimensional layout of the threads is used and the i, j, k indices are dete
 the maximum number of threads per block, and that is fixed to be 512 (The limits for CUDA 2.0+ for threads per block is 1024 and blocks per grid is 65536). In the above example, 
 `GPU_MAX_THREADS` is the number of threads launched per block. 
 
-### Grid-stride-loop
-In this example, we use `GPU_MAX_THREADS=512`, and `ncells=nx ny nz` is the size of the data that is offloaded onto the device. The general CUDA guideline is that one 
-thread handle one iteration of the loop. Hence if `ncells = 800` for example, then `ncells > GPU_MAX_THREADS`. Hence, what is done is to take a stride over the full grid. i.e. for example, 
-the first thread in the first block i.e. thread 0 of block 0 will handle the elements with the following indices - 0, `0+numBlocks x numThreadsPerBlock`, `0+2 x (numBlocks x numThreadsPerBlock)`, and 
-so on.  
 
 
 ### Determining the number of blocks
