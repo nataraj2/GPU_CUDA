@@ -59,7 +59,7 @@ inline void test_function(int i, int j, int k,
     pressure(i,j,k) = 2*i*j;
 }
 ``` 
-If the variables were of the standard types such as an array for example, and are `const`, then they cannot be modified inside the function. Hence, the trick is to create a struct `Array4`, 
+If the variables were of the standard types such as an n-dimensional array for example, and are `const`, then they cannot be modified inside the function. Hence, the trick is to create a struct `Array4`, 
 for the variables, and overload the parantheses operator `()` as in `Array4.H`. This allows values of these `Array4` variables to be modified inside the function. 
 Notice how the variables are accessed in a fortran style - `vel(i,j,k)`. A class `MultiFab` is defined in `MultiFab.H`, with a member function `array` that returns an 
 `Array4` object on invoking. The class uses `cudaMallocManaged` or `malloc` to allocate the variables based on if we use GPU or CPU. 
