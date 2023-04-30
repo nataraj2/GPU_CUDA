@@ -34,7 +34,7 @@ ParallelFor(nx, ny, nz,
 		test_function(i, j, k, vel, pressure);
 	});
 ```
-**This would be one of the major changes (there is one more that is explained in a later section) 
+**This would be one of the major changes (there is one more that is explained in the next section) 
 the user will have to make in the application code. The header files have templated functions which will offload any function written within 
 the for-loop (```test_function``` in this case) onto the device i.e. the GPU, and the user does not need to know about these.** 
 `ParallelFor` is a function that takes in 4 arguments - `nx, ny, nz` and the function that will be offloaded 
