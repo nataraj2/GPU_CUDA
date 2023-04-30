@@ -61,8 +61,7 @@ If the variables were of the standard types such as an array for example, and ar
 for the variables, and overload the parantheses operator `()` as in `Array4.H`. This allows values of these `Array4` variables to be modified inside the function. 
 Notice how the variables are accessed in a fortran style - `vel(i,j,k)`. A class `MultiFab` is defined in `MultiFab.H`, with a member function `array` that returns an 
 `Array4` object on invoking. The class has two implementations of the `array` function - which uses `cudaMallocManaged` or `malloc` based on if we use GPU or CPU. 
-`cudaMallocManaged` allocates the variable in the managed (unified) memory which is accessible by both the host (CPU) and the device (GPU), as opposed to `cudaMalloc` which allocates 
-variables only on the device, hence preventing the need to create variables on the device and explicitly copying the variables from the host to the device. This is approach is an easy start to GPU-enable codes already written for CPU with MPI and OpenMP. The use of unified memory makes [CUDA-aware MPI](https://developer.nvidia.com/blog/introduction-cuda-aware-mpi/) possible.
+`cudaMallocManaged` allocates the variable in the managed (unified) memory which is accessible by both the host (CPU) and the device (GPU), hence preventing the need to create variables on the device and explicitly copying the variables from the host to the device (as opposed to `cudaMalloc` which allocates variables only on the device). This is approach is an easy start to GPU-enable codes already written for CPU with MPI and OpenMP. The use of unified memory makes [CUDA-aware MPI](https://developer.nvidia.com/blog/introduction-cuda-aware-mpi/) possible.
 
 ## Explanation of the GPU kernel launch
 [NVIDIA page for introduction to CUDA](https://docs.nvidia.com/cuda/cuda-c-programming-guide/index.html#features-and-technical-specifications__technical-specifications-per-compute-capability) is a very good read.  
