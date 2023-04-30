@@ -68,9 +68,9 @@ one GPU is a good start to GPU-enabling already written codes.
 
 ## Explanation of the GPU kernel launch
 [NVIDIA page for introduction to CUDA](https://docs.nvidia.com/cuda/cuda-c-programming-guide/index.html#features-and-technical-specifications__technical-specifications-per-compute-capability) is a very good read.  
-`ParallelForGPU.H` contains the implementation of the templated `ParallelFor` function for GPU using CUDA. It calls a macro -  `LAUNCH_KERNEL`
-which launches the kernel with a specified number of threads, and the number of blocks being automatically determined, and with stream and shared memory (optionally). 
-A [grid-stride loop](https://developer.nvidia.com/blog/cuda-pro-tip-write-flexible-kernels-grid-stride-loops/) is used so that cases with the data array size
+Kernels are functions that are launched on the GPU device. CUDA kernel launches are asynchronous (i.e. non-blocking). `ParallelForGPU.H` contains the implementation of the 
+templated `ParallelFor` function for GPU using CUDA. It calls a macro -  `LAUNCH_KERNEL` which launches the kernel with a specified number of threads, and the 
+number of blocks being automatically determined, and with stream and shared memory (optionally). A [grid-stride loop](https://developer.nvidia.com/blog/cuda-pro-tip-write-flexible-kernels-grid-stride-loops/) is used so that cases with the data array size
 exceeding the total number of threads (which is equal to the stride inside the for-loop, equal to `numThreadsPerBlock (i.e. blockDim.x) x numThreadsPerBlock (i.e. gridDim.x)`) are automatically handled, and this results in a flexible kernel. The function launched by the kernel looks as below 
 and `call_f` will call the function which does the computation inside the nested for-loops - `test_function` in this case. The templated function `ParallelFor` launches the kernel
 ```
