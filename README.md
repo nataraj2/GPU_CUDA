@@ -8,7 +8,8 @@ The directory `CPUAndGPU` contains the code. To run the code with GPU, the machi
 The `Makefile` has a variable `USE_CUDA` which can be defined as `true` or 
 `false` and that will compile the GPU and pure CPU versions of the code respectively. `make` will compile the code.
 The executable is `parallel_for_gpu.ex` or `parallel_for_cpu.ex` for the GPU and pure CPU compilations respectively. For running with GPU, 
-CUDA modules should be enabled. Run with `./parallel_for_gpu.ex` or `parallel_for_cpu.ex`.
+CUDA modules should be enabled. Run with `./parallel_for_gpu.ex` or `parallel_for_cpu.ex`. A sample run can be seen on the Actions tab 
+in the GitHub panel above.
 
 ## Run in Google Colab  
 The example can also be run on Google Colab. The notebook `GPU_CUDA_Colab.ipynb` is set to run as it is on Google Colab. 
