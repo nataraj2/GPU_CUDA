@@ -4,7 +4,7 @@ This repository contains a minimal working example of how to offload
 computations onto a CUDA GPU device.
 
 ## Compilation and running 
-The directory `CPUAndGPU` contains the code. To run the code with GPU, the machine you run needs to have a CUDA installation.
+The directory `CPUAndGPU` contains the code. To run the code with GPU, the machine needs to have a CUDA installation.
 The `Makefile` has a variable `USE_CUDA` which can be defined as `true` or 
 `false` and that will compile the GPU and pure CPU versions of the code respectively. `make` will compile the code.
 The executable is `parallel_for_gpu.ex` or `parallel_for_cpu.ex` for the GPU and pure CPU compilations respectively. For running with GPU, 
